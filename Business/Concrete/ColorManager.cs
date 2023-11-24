@@ -16,9 +16,29 @@ namespace Business.Concrete
         {
             _colorDal = colorDal;
         }
+
+        public Color Add(Color color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Color Delete(Color color)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Color> GetAll()
         {
             return _colorDal.GetAll();
+        }
+        public Color GetById(int colorId)
+        {
+            return _colorDal.Get(b => b.ColorId == colorId);
+        }
+
+        public Color Update(Color color)
+        {
+            throw new NotImplementedException();
         }
     }
 }

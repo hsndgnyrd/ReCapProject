@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,17 @@ namespace Business.Concrete
             _carDal = iCarDal;
         }
 
+        public Car Add(Car car)
+        {
+           _carDal.Add(car);
+            return car;
+        }
+
+        public Car Delete(int carId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> GetAll()
         {
             return _carDal.GetAll();
@@ -32,6 +44,16 @@ namespace Business.Concrete
         public List<Car> GetCarsByColorId(int id)
         {
             return _carDal.GetAll(p => p.ColorId == id);
+        }
+
+        public List<CarDetailDto> GetProductDetails()
+        {
+            return _carDal.GetProductDetails();
+        }
+
+        public Car Update(Car car)
+        {
+            throw new NotImplementedException();
         }
     }
 }
