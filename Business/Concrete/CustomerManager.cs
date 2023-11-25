@@ -7,49 +7,50 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class BrandManager : IBrandService
+    public class CustomerManager : ICustomerService
     {
-        IBrandDal _brandDal;
-        public BrandManager(IBrandDal brandDal)
+        ICustomerDal _customerDal;
+
+        public CustomerManager(ICustomerDal customerDal)
         {
-            _brandDal = brandDal;
+            _customerDal = customerDal;
         }
 
-        public IResult Add(Brand brand)
+        public IResult Add(Customer customer)
         {
-            if(brand.BrandName.Length < 2)
+            if(customer.CompanyName.Length <2)
             {
                 return new ErrorResult(Messages.ProductNameInvalid);
             }
-            _brandDal.Add(brand);
             return new SuccessResult(Messages.ProductAdded);
         }
 
-        public IResult Delete(int brandId)
+        public IResult Delete(int UserId)
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<Brand>> GetAll()
+        public IDataResult<List<Customer>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.MaintenanceTime);
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
-        public IDataResult<Brand> GetById(int brandId)
+        public IDataResult<Customer> GetById(int id)
         {
-            return new SuccessDataResult<Brand>(_brandDal.GetById(b => b.BrandId == brandId));
+            return new SuccessDataResult<Customer>(_customerDal.GetById(c => c.UserId == id));
         }
 
-        public IResult Update(Brand brand)
+        public IResult Update(Customer customer)
         {
             throw new NotImplementedException();
         }

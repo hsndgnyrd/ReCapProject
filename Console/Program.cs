@@ -14,15 +14,23 @@ namespace Console
     {
         static void Main(string[] args)
         {
-
             //Car car = new Car { BrandId = 5, ColorId = 7, DailyPrice = 750, Description = "Sıfır araba ve ekleme denemesi", ModelYear = 2021};
             //CarManager carManager = new CarManager(new EFCarDal());
             //carManager.Add(car);
 
             //CarTest();
-            ColorTest();
-            BrandTest();
+            //ColorTest();
+            //BrandTest();
 
+            RentCarTest();
+
+        }
+
+        private static void RentCarTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.Add(new Rental { CarId = 11, CustomerId = 1, RentDate = DateTime.Now });
+            System.Console.WriteLine(result.Message);
         }
 
         private static void BrandTest()

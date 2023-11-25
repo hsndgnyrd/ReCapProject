@@ -54,6 +54,11 @@ namespace DataAccess.Concrete.InMemory
             return _cars.Find(c => c.CarId == id);
         }
 
+        public Car GetById(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<CarDetailDto> GetProductDetails()
         {
             throw new NotImplementedException();
