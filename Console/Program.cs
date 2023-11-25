@@ -19,38 +19,61 @@ namespace Console
             //CarManager carManager = new CarManager(new EFCarDal());
             //carManager.Add(car);
 
-            CarTest();
-            //ColorTest();
-            //BrandTest();
+            //CarTest();
+            ColorTest();
+            BrandTest();
 
         }
 
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-
-            foreach (var brand in brandManager.GetAll())
+            var result = brandManager.GetAll();
+            if (result.Success)
             {
-                System.Console.WriteLine(brand.BrandName);
+                foreach (var brand in result.Data)
+                {
+                    System.Console.WriteLine(brand.BrandName);
+                }
+            }
+            else
+            {
+                System.Console.WriteLine(result.Message);
             }
         }
 
         private static void ColorTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            foreach (var color in colorManager.GetAll())
+            var result = colorManager.GetAll();
+            if (result.Success)
             {
-                System.Console.WriteLine(color.ColorName);
+                foreach (var color in result.Data)
+                {
+                    System.Console.WriteLine(color.ColorName);
 
+                }
+            }
+            else
+            {
+                System.Console.WriteLine(result.Message);
             }
         }
 
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EFCarDal());
-            foreach (var car in carManager.GetProductDetails())
+            var result = carManager.GetProductDetails();
+            if (result.Success)
             {
-                System.Console.WriteLine("{0} - {1} - {2} - {3}",car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    System.Console.WriteLine("{0} - {1} - {2} - {3}",car.ColorName, car.BrandName, car.DailyPrice, car.CarName);
+                }
+            }
+            else
+            {
+                System.Console.WriteLine(result.Message);
             }
         }
     }

@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntitiyFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -17,27 +20,36 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public Brand Add(Brand brand)
+        public IResult Add(Brand brand)
+        {
+            if(brand.BrandName.Length < 2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalid);
+            }
+            _brandDal.Add(brand);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
+        public IResult Delete(int brandId)
         {
             throw new NotImplementedException();
         }
 
-        public Brand Delete(int brandId)
+        public IDataResult<List<Brand>> GetAll()
         {
-            throw new NotImplementedException();
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.MaintenanceTime);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<Brand> GetById(int brandId)
         {
-            return _brandDal.GetAll();
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId));
         }
 
-        public Brand GetById(int brandId)
-        {
-            return _brandDal.Get(b => b.BrandId == brandId);
-        }
-
-        public Brand Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             throw new NotImplementedException();
         }

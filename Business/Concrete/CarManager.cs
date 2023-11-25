@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -20,38 +22,47 @@ namespace Business.Concrete
             _carDal = iCarDal;
         }
 
-        public Car Add(Car car)
+        public IResult Add(Car car)
         {
-           _carDal.Add(car);
-            return car;
+            if(car.Description.Length < 2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalid);
+            }
+            _carDal.Add(car);
+            return new SuccessResult(Messages.ProductAdded);
+
         }
 
-        public Car Delete(int carId)
+        public IResult Delete(int carId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public List<Car> GetCarsByBrandId(int id)
+        public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            return _carDal.GetAll(p => p.BrandId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id));
         }
 
-        public List<Car> GetCarsByColorId(int id)
+        public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            return _carDal.GetAll(p => p.ColorId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id));
         }
 
-        public List<CarDetailDto> GetProductDetails()
+        public IDataResult<List<CarDetailDto>> GetProductDetails()
         {
-            return _carDal.GetProductDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetProductDetails());
         }
 
-        public Car Update(Car car)
+        public IResult Update(Car car)
         {
             throw new NotImplementedException();
         }

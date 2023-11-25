@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntitiyFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -17,26 +20,36 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public Color Add(Color color)
+        public IResult Add(Color color)
+        {
+            if (color.ColorName.Length < 2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalid);
+            }
+            _colorDal.Add(color);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
+        public IResult Delete(int colorId)
         {
             throw new NotImplementedException();
         }
 
-        public Color Delete(Color color)
+        public IDataResult<List<Color>> GetAll()
         {
-            throw new NotImplementedException();
+            if (DateTime.Now.Hour == 15)
+            {
+                return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.MaintenanceTime);
         }
 
-        public List<Color> GetAll()
+        public IDataResult<Color> GetById(int colorId)
         {
-            return _colorDal.GetAll();
-        }
-        public Color GetById(int colorId)
-        {
-            return _colorDal.Get(b => b.ColorId == colorId);
+            return new SuccessDataResult<Color>(_colorDal.Get(b => b.ColorId == colorId));
         }
 
-        public Color Update(Color color)
+        public IResult Update(Color color)
         {
             throw new NotImplementedException();
         }
