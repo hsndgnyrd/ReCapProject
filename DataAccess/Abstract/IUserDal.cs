@@ -10,5 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface IUserDal: IEntityRepository<User>
     {
+        // Join operasyonu olduğu için buraya yazıldı.
+        List<OperationClaim> GetClaims(User user);
     }
 }
